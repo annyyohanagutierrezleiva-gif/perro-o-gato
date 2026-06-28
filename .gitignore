@@ -1,0 +1,9 @@
+# No subir las imagenes ni los ZIPs a GitHub (son muy grandes)
+dataset/
+Gatos.zip
+Perros.zip
+
+# No subir archivos temporales
+__pycache__/
+*.pyc
+.env
