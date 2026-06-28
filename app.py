@@ -8,15 +8,16 @@ st.title("Clasificador Perro o Gato - Clase IA - 2026 - Anny Gutierrez")
 st.write("Suba una imagen para clasificar con el modelo MobileNetV2 pre-entrenado")
 
 IMG_SIZE = (224, 224)
-CLASES = ["Gato", "Perro"]  # gatos=0, perros=1
+CLASES = ["Gato", "Perro"]
 
 @st.cache_resource
-@st.cache_resource
 def cargar_modelo():
-    import h5py
-    return tf.keras.models.load_model("modelo_perro_gato.keras", compile=False),
-        options=tf.saved_model.LoadOptions()
-    )
+    return tf.keras.models.load_model("modelo_perro_gato.keras", compile=False)
+
+def preparar_imagen(img):
+    img = img.convert("RGB").resize(IMG_SIZE)
+    arr = np.array(img, dtype=np.float32) / 255.0
+    return np.expand_dims(arr, axis=0)
 
 def predecir(img):
     preds = modelo.predict(preparar_imagen(img), verbose=0)[0]
@@ -30,12 +31,9 @@ archivo = st.file_uploader("Seleccione una imagen", type=["jpg", "jpeg", "png"])
 if archivo:
     imagen = Image.open(archivo)
     st.image(imagen, caption="Imagen analizada", use_container_width=True)
-
     resultado, confianza, preds = predecir(imagen)
-
     st.subheader("Resultado")
     st.success(f"Predicción: {resultado} ({confianza:.2f}%)")
-
     st.write("Probabilidades:")
     for i, clase in enumerate(CLASES):
         st.write(f"{clase}: {float(preds[i])*100:.2f}%")
