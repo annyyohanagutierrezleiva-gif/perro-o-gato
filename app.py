@@ -21,7 +21,9 @@ def preparar_imagen(img):
 
 def predecir(img):
     tensor = preparar_imagen(img)
-    preds = modelo(tensor, training=False).numpy()[0]
+    infer = modelo.signatures["serving_default"]
+    output = infer(tensor)
+    preds = list(output.values())[0].numpy()[0]
     indice = np.argmax(preds)
     return CLASES[indice], float(preds[indice]) * 100, preds
 
