@@ -12,15 +12,16 @@ CLASES = ["Gato", "Perro"]
 
 @st.cache_resource
 def cargar_modelo():
-    return tf.keras.models.load_model("modelo_perro_gato.keras", compile=False)
+    return tf.saved_model.load("modelo_savedmodel")
 
 def preparar_imagen(img):
     img = img.convert("RGB").resize(IMG_SIZE)
     arr = np.array(img, dtype=np.float32) / 255.0
-    return np.expand_dims(arr, axis=0)
+    return tf.expand_dims(arr, axis=0)
 
 def predecir(img):
-    preds = modelo.predict(preparar_imagen(img), verbose=0)[0]
+    tensor = preparar_imagen(img)
+    preds = modelo(tensor, training=False).numpy()[0]
     indice = np.argmax(preds)
     return CLASES[indice], float(preds[indice]) * 100, preds
 
