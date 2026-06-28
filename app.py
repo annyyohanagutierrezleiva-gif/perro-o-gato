@@ -12,8 +12,7 @@ CLASES = ["Gato", "Perro"]  # gatos=0, perros=1
 
 @st.cache_resource
 def cargar_modelo():
-    return tf.keras.models.load_model("modelo_perro_gato.h5", compile=False)
-
+    return tf.keras.models.load_model("modelo_perro_gato.keras", compile=False)
 def preparar_imagen(img):
     img = img.convert("RGB").resize(IMG_SIZE)
     arr = np.array(img, dtype=np.float32) / 255.0
