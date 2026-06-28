@@ -31,7 +31,7 @@ archivo = st.file_uploader("Seleccione una imagen", type=["jpg", "jpeg", "png"])
 
 if archivo:
     imagen = Image.open(archivo)
-    st.image(imagen, caption="Imagen analizada", use_container_width=True)
+    st.image(imagen, caption="Imagen analizada", use_column_width=True)
     resultado, confianza, preds = predecir(imagen)
     st.subheader("Resultado")
     st.success(f"Predicción: {resultado} ({confianza:.2f}%)")
