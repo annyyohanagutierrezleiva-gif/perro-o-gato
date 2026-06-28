@@ -14,9 +14,7 @@ CLASES = ["Gato", "Perro"]  # gatos=0, perros=1
 @st.cache_resource
 def cargar_modelo():
     import h5py
-    return tf.keras.models.load_model(
-        "modelo_perro_gato.h5",
-        compile=False,
+    return tf.keras.models.load_model("modelo_perro_gato.keras", compile=False),
         options=tf.saved_model.LoadOptions()
     )
 
